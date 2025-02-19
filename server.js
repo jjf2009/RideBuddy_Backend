@@ -17,14 +17,14 @@ const serviceAccount = {
   client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
   universe_domain: process.env.UNIVERSE_DOMAIN,
 };
-console.log(serviceAccount)
+// console.log(serviceAccount)
 err = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
 // console.log(serviceAccount)
 // console.log(err)
-// console.log("Firebase Initialized Successfully ✅");
+console.log("Firebase Initialized Successfully ✅");
 
 
 const db = admin.firestore();

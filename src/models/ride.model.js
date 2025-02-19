@@ -17,7 +17,7 @@ const createRide = async (db, rideData) => {
     "seatsAvailable",
     "phoneNumber",
     "price",
-    "routeCoordinates",
+    // "routeCoordinates",
     "routeDescription",
   ];
 
@@ -36,12 +36,12 @@ const createRide = async (db, rideData) => {
   if (isNaN(Date.parse(rideData.date))) {
     throw new Error("Invalid date format.");
   }
-  if (!Array.isArray(rideData.routeCoordinates)) {
-    throw new Error("Invalid data type: 'routeCoordinates' should be an array.");
-  }
-  if (!rideData.routeCoordinates.every(coord => Array.isArray(coord) && coord.length === 2)) {
-    throw new Error("Invalid format: 'routeCoordinates' should be an array of [latitude, longitude] pairs.");
-  }
+  // if (!Array.isArray(rideData.routeCoordinates)) {
+  //   throw new Error("Invalid data type: 'routeCoordinates' should be an array.");
+  // }
+  // if (!rideData.routeCoordinates.every(coord => Array.isArray(coord))) {
+  //   throw new Error("Invalid format: 'routeCoordinates' should be an array of [latitude, longitude] pairs.");
+  // }
 
   // Store data in Firestore
   try {
