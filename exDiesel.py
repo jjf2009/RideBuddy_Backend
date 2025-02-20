@@ -1,5 +1,4 @@
 import re #for regex
-import json 
 
 def getDieselPrice() :
     with open("diesel.html", "r") as file : #open the file as file
