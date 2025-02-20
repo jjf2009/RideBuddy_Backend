@@ -8,4 +8,7 @@ router.post("/publish", rideController.createRide);
 // Get all rides
 router.get("/search", rideController.getAllRides);
 
+// Get the current fuel prices
+router.get("/api/fuelPrices", rideController.getFuelPrices);
+
 module.exports = router;
