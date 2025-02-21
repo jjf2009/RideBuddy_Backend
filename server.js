@@ -24,7 +24,7 @@ err = admin.initializeApp({
 
 // console.log(serviceAccount)
 // console.log(err)
-console.log("Firebase Initialized Successfully ✅");
+// console.log("Firebase Initialized Successfully ✅");
 
 
 const db = admin.firestore();
@@ -53,9 +53,11 @@ app.use((req, res, next) => {
 
 // Import routes
 const rideRoutes = require("./src/routes/ride.route");
+const requestRoutes = require("./src/routes/request.route");
 
 // Use routes
 app.use("/", rideRoutes);
+app.use("/", requestRoutes);
 
 // Root endpoint
 app.get("/", (req, res) => {

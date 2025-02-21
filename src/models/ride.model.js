@@ -1,5 +1,4 @@
 const collectionName = "rides";
-
 // Create a new ride
 const createRide = async (db, rideData) => {
   // Required fields
@@ -17,7 +16,7 @@ const createRide = async (db, rideData) => {
     "seatsAvailable",
     "phoneNumber",
     "price",
-    // "routeCoordinates",
+    "DriverId",
     "routeDescription",
   ];
 
@@ -36,12 +35,7 @@ const createRide = async (db, rideData) => {
   if (isNaN(Date.parse(rideData.date))) {
     throw new Error("Invalid date format.");
   }
-  // if (!Array.isArray(rideData.routeCoordinates)) {
-  //   throw new Error("Invalid data type: 'routeCoordinates' should be an array.");
-  // }
-  // if (!rideData.routeCoordinates.every(coord => Array.isArray(coord))) {
-  //   throw new Error("Invalid format: 'routeCoordinates' should be an array of [latitude, longitude] pairs.");
-  // }
+  
 
   // Store data in Firestore
   try {
@@ -55,6 +49,7 @@ const createRide = async (db, rideData) => {
 
 // Get all rides
 const getAllRides = async (db) => {
+  // console.log("Firestore DB Instance in request.model.js:", db);
   try {
     const snapshot = await db.collection(collectionName).get();
     const rides = [];
@@ -70,28 +65,8 @@ const getAllRides = async (db) => {
   }
 };
 
-const getFuelPrices = async (req, res) => {
-  try {
-    const pythonProcess = spawn('python3', ['main.py']);
-    console.log("hiblablabl")
-    const petrol = path.join(__dirname, 'petrol_price.json');
-    const diesel = path.join(__dirname, 'diesel_price.json');
-    fs.readFile(petrol, 'utf-8', (err1, data1) => { if(err1) return res.status(500).json({ "message" : `${err1.message}`});
-    fs.readFile(diesel, 'utf-8', (err2, data2) => { if(err2) return res.status(500).json({ "message" : `${err2.message}` });
-    const response = {
-      petrolPrice: JSON.parse(data1),
-      dieselPrice: JSON.parse(data2)
-    };
-      res.send(response);
-  });
-});
-  } catch(error) {
-    res.status(500).json({ error : error.message });
-  }
-}
-
 module.exports = {
   createRide,
   getAllRides,
-  getFuelPrices,
+  
 };
