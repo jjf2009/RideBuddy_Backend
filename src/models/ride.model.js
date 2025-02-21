@@ -70,7 +70,28 @@ const getAllRides = async (db) => {
   }
 };
 
+const getFuelPrices = async (req, res) => {
+  try {
+    const pythonProcess = spawn('python3', ['main.py']);
+    console.log("hiblablabl")
+    const petrol = path.join(__dirname, 'petrol_price.json');
+    const diesel = path.join(__dirname, 'diesel_price.json');
+    fs.readFile(petrol, 'utf-8', (err1, data1) => { if(err1) return res.status(500).json({ "message" : `${err1.message}`});
+    fs.readFile(diesel, 'utf-8', (err2, data2) => { if(err2) return res.status(500).json({ "message" : `${err2.message}` });
+    const response = {
+      petrolPrice: JSON.parse(data1),
+      dieselPrice: JSON.parse(data2)
+    };
+      res.send(response);
+  });
+});
+  } catch(error) {
+    res.status(500).json({ error : error.message });
+  }
+}
+
 module.exports = {
   createRide,
   getAllRides,
+  getFuelPrices,
 };
