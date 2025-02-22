@@ -34,14 +34,20 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "https://ridebuddy-frontend.vercel.app"],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  })
-);
+app.use(cors({
+  origin: "http://localhost:5173", // Allow frontend origin
+  methods: ["GET", "POST", "PATCH", "DELETE"], // Include PATCH method
+  allowedHeaders: ["Content-Type", "Authorization"], // Include required headers
+  credentials: true // If using cookies or authentication
+}));
+
 app.options("*", cors());
+
+app.options("/requests/:id", (req, res) => {
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.status(200).send();
+});
 
 app.use((req, res, next) => {
   if (!db) {
