@@ -1,14 +1,27 @@
 const express = require("express");
-const router = express.Router();
-const rideController = require("../controllers/ride.controller");
+const admin = require("firebase-admin");
+const cors = require("cors");
+const rideRoutes = require("./routes/ride.routes");
 
-// Create a new ride
-router.post("/publish", rideController.createRide);
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-// Get all rides
-router.get("/search", rideController.getAllRides);
+// Initialize Firestore
+admin.initializeApp({
+  credential: admin.credential.cert(require("./path/to/your/firebase-adminsdk.json"))
+});
+const db = admin.firestore();
 
-// Get the current fuel prices
-// router.get("/api/fuelPrices", rideController.getFuelPrices);
+// Middleware to attach Firestore instance to requests
+app.use((req, res, next) => {
+  req.db = db;
+  next();
+});
 
-module.exports = router;
+// Routes
+app.use("/rides", rideRoutes);
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

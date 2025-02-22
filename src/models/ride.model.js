@@ -1,7 +1,7 @@
 const collectionName = "rides";
+
 // Create a new ride
 const createRide = async (db, rideData) => {
-  // Required fields
   const requiredFields = [
     "driverName",
     "department",
@@ -20,12 +20,10 @@ const createRide = async (db, rideData) => {
     "routeDescription",
   ];
 
-  // Check for missing fields
   if (!rideData || requiredFields.some(field => rideData[field] === undefined || rideData[field] === "")) {
     throw new Error("Missing required fields. Please provide all ride details.");
   }
 
-  // Ensure correct data types
   if (typeof rideData.seatsAvailable !== "number" || typeof rideData.price !== "number") {
     throw new Error("Invalid data type: 'seatsAvailable' and 'price' should be numbers.");
   }
@@ -35,9 +33,7 @@ const createRide = async (db, rideData) => {
   if (isNaN(Date.parse(rideData.date))) {
     throw new Error("Invalid date format.");
   }
-  
 
-  // Store data in Firestore
   try {
     const docRef = await db.collection(collectionName).add(rideData);
     return docRef.id;
@@ -49,7 +45,6 @@ const createRide = async (db, rideData) => {
 
 // Get all rides
 const getAllRides = async (db) => {
-  // console.log("Firestore DB Instance in request.model.js:", db);
   try {
     const snapshot = await db.collection(collectionName).get();
     const rides = [];
@@ -65,8 +60,46 @@ const getAllRides = async (db) => {
   }
 };
 
+// Get a single ride by ID
+const getRideById = async (db, rideId) => {
+  try {
+    const doc = await db.collection(collectionName).doc(rideId).get();
+    if (!doc.exists) {
+      throw new Error("Ride not found");
+    }
+    return { id: doc.id, ...doc.data() };
+  } catch (error) {
+    console.error("Error fetching ride:", error);
+    throw new Error("Failed to fetch ride. Please try again.");
+  }
+};
+
+// Update a ride
+const updateRide = async (db, rideId, updatedData) => {
+  try {
+    await db.collection(collectionName).doc(rideId).update(updatedData);
+    return { id: rideId, ...updatedData };
+  } catch (error) {
+    console.error("Error updating ride:", error);
+    throw new Error("Failed to update ride. Please try again.");
+  }
+};
+
+// Delete a ride
+const deleteRide = async (db, rideId) => {
+  try {
+    await db.collection(collectionName).doc(rideId).delete();
+    return { message: "Ride deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting ride:", error);
+    throw new Error("Failed to delete ride. Please try again.");
+  }
+};
+
 module.exports = {
   createRide,
   getAllRides,
-  
+  getRideById,
+  updateRide,
+  deleteRide,
 };
