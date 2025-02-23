@@ -35,7 +35,7 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:5173", // Allow frontend origin
+  origin: ["https://ridebuddy-8p6s.onrender.com"], // Allow multiple frontend origins
   methods: ["GET", "POST", "PATCH", "DELETE"], // Include PATCH method
   allowedHeaders: ["Content-Type", "Authorization"], // Include required headers
   credentials: true // If using cookies or authentication
