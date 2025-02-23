@@ -41,11 +41,11 @@ app.use(
 app.options("*", cors());
 
 // 🔹 Serve Frontend (Fixes 404 on Refresh)
-app.use(express.static(path.join(__dirname, "dist"))); // Change "dist" to "build" for CRA
+// app.use(express.static(path.join(__dirname, "dist"))); // Change "dist" to "build" for CRA
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "dist", "index.html")); // Change "dist" to "build" for CRA
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "dist", "index.html")); // Change "dist" to "build" for CRA
+// });
 
 // 🔹 Attach Firestore to Requests
 app.use((req, res, next) => {
