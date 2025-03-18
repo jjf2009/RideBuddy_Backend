@@ -4,6 +4,7 @@ const rideModel = require("../models/ride.model.js");
 const createRide = async (req, res) => {
   try {
     const rideData = req.body;
+    console.log(rideData)
     const rideId = await rideModel.createRide(req.db, rideData);
     res.status(201).json({ message: "Ride created", rideId });
   } catch (error) {
